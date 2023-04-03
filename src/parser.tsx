@@ -20,7 +20,7 @@ export function parse(markdown: string, options: ParseOptions = {}) {
     if (/^#{1,6}\s/.test(line)) {
       const level = line.match(/^#{1,6}/)?.[0].length;
       const text = line.replace(/^#{1,6}\s/, "");
-      html.push(`<h${level}>${text}</h${level}>`);
+      html.push(React.createElement(`h${level}`, {}, text));
     }
 
     // check for horizontal rule
@@ -93,6 +93,53 @@ export function parse(markdown: string, options: ParseOptions = {}) {
       const src = match?.[2];
       html.push(<img src={src} alt={alt} />);
     }
+    // check for tables
+    else if (/^\|(.+\|)+/.test(line)) {
+      const tableRows = [line];
+      while (lines.length && /^\|(.+\|)+/.test(lines[0])) {
+        tableRows.push(lines.shift()!);
+      }
+
+      const headerRow = tableRows.shift();
+      const headerColumns = headerRow!
+        .substring(1, headerRow!.length - 1)
+        .split("|")
+        .map((column) => column.trim());
+
+      const tableHead = (
+        <thead>
+          <tr>
+            {headerColumns.map((column) => (
+              <th key={column}>{column}</th>
+            ))}
+          </tr>
+        </thead>
+      );
+
+      const tableBody = (
+        <tbody>
+          {tableRows.map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {row
+                .substring(1, row.length - 1)
+                .split("|")
+                .map((cell, cellIndex) => (
+                  <td key={cellIndex}>{cell.trim()}</td>
+                ))}
+            </tr>
+          ))}
+        </tbody>
+      );
+
+      html.push(
+        <table>
+          {tableHead}
+          {tableBody}
+        </table>
+      );
+    }
+
+    // check for charts (Assuming chartData is a JSON string)
 
     // regular paragraph
     else {

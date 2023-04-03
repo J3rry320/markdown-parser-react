@@ -1,7 +1,18 @@
 {
   "name": "markdownie",
-  "version": "1.0.0",
-  "description": "A lightweight Markdown parser for React and Next.js",
+  "version": "1.0.2",
+  "description": "A powerful and easy-to-use React Markdown parser with built-in support for tables.",
+  "keywords": [
+    "markdown",
+    "parser",
+    "react",
+    "react-markdown",
+    "tables",
+    "charts",
+    "chart.js",
+    "markdown-to-html",
+    "markdown-to-react"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/J3rry320/markdownie.git"
@@ -22,14 +33,6 @@
     "url": "https://github.com/J3rry320/markdownie/issues"
   },
   "homepage": "https://github.com/J3rry320/markdownie#readme",
-  "keywords": [
-    "markdown",
-    "react",
-    "next.js",
-    "parser",
-    "syntax",
-    "highlighting"
-  ],
   "author": "J3rry Sa7pa7hy",
   "dependencies": {
     "highlight.js": "^11.7.0",
