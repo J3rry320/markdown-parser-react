@@ -1,0 +1,43 @@
+{
+  "name": "markdownie",
+  "version": "1.0.0",
+  "description": "A lightweight Markdown parser for React and Next.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/J3rry320/markdownie.git"
+  },
+  "types": "./dist/index.d.ts",
+  "main": "./dist/lib.umd.js",
+  "module": "./dist/lib.module.js",
+  "files": [
+    "dist/"
+  ],
+  "source": "src/index.ts",
+  "scripts": {
+    "build": "microbundle --jsx React.createElement --jsxFragment React.Fragment --jsxImportSource react",
+    "dev": "microbundle watch"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/J3rry320/markdownie/issues"
+  },
+  "homepage": "https://github.com/J3rry320/markdownie#readme",
+  "keywords": [
+    "markdown",
+    "react",
+    "next.js",
+    "parser",
+    "syntax",
+    "highlighting"
+  ],
+  "author": "J3rry Sa7pa7hy",
+  "dependencies": {
+    "highlight.js": "^11.7.0",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.32",
+    "microbundle": "^0.15.1",
+    "typescript": "^5.0.3"
+  }
+}
