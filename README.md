@@ -35,7 +35,7 @@ const message = 'Hello, world!';
 console.log(message);
 \`\`\``;
 
-  return <Markdown source={markdown} />;
+  return <Markdown content={markdown} />;
 }
 ```
 ## Parser Options
@@ -48,11 +48,11 @@ Specifies the prefix to use for language classes in code blocks. The default val
 
 
 ``` typescript
-const parseOptions = {
+const options = {
   langPrefix: 'lang-',
 };
 ```
-You can also configure the Markdown parser options by passing a `parseOptions` prop:
+You can also configure the Markdown parser options by passing a `options` prop:
 ```typescript
 
 
@@ -76,7 +76,7 @@ console.log(message);
     langPrefix: 'lang-',
   };
 
-  return <Markdown source={markdown} parseOptions={parseOptions} />;
+  return <Markdown content={markdown} options={parseOptions} />;
 }
 ```
 ## Hire Me
