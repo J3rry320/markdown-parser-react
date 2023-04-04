@@ -1,4 +1,4 @@
-`# Markdownie
+# Markdownie
 
 Markdownie is a lightweight, configurable, and easy-to-use Markdown renderer for React and Next.js with syntax highlighting support. It is built with TypeScript and can be effortlessly integrated into any React or Next.js project.
 
@@ -23,7 +23,7 @@ To use Markdownie, import the `Markdown` component and pass the Markdown text yo
 
 
 ```typescript
-import { Markdown } from 'markdownie';
+import  Markdown from 'markdownie';
 
 function MyComponent() {
   const markdown = `# Hello, world!
@@ -61,7 +61,7 @@ Configure the Markdown parser options by passing an `options` prop:
 
 
 ```typescript
-import { Markdown } from 'markdownie';
+import  Markdown  from 'markdownie';
 
 function MyComponent() {
   const markdown = `# Hello, world!
