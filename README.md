@@ -41,6 +41,37 @@ console.log(message);
 }
 ``` 
 
+## Usage with Next.js
+
+If you're using Next.js, you may encounter the ***"Text content does not match server-rendered HTML"*** error. To avoid this issue, you can use `next/dynamic` to dynamically import the `Markdown` component, ensuring that it is only rendered on the client-side.
+
+Here's how to use `Markdown` with Next.js:
+
+```typescript
+import dynamic from 'next/dynamic';
+
+const Markdown = dynamic(() => import('markdownie').then((markdown) => markdown),{
+  ssr: false,
+});
+
+interface MyComponentProps {
+  content: string;
+  options?: {
+    langPrefix?: string;
+  };
+}
+
+export const MyComponent: React.FC<MyComponentProps> = ({ content, options }) => {
+  return (
+    <div>
+      <Markdown content={content} options={options} />
+    </div>
+  );
+};
+``` 
+
+By using the `next/dynamic` function and passing ssr as false, we ensure that the `Markdown` component is only rendered on the client-side, preventing the mismatch error between server-rendered and client-rendered HTML in Next.js projects.
+
 ## Parser Options
 
 You can configure the following options for the Markdown parser:
