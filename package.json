@@ -1,6 +1,6 @@
 {
   "name": "markdownie",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A powerful and easy-to-use React Markdown parser with built-in support for tables.",
   "keywords": [
     "markdown",
@@ -35,7 +35,6 @@
   "homepage": "https://github.com/J3rry320/markdownie#readme",
   "author": "J3rry Sa7pa7hy",
   "dependencies": {
-    "highlight.js": "^11.7.0",
     "react": "^18.2.0"
   },
   "devDependencies": {
