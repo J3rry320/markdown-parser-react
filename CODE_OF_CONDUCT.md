@@ -1,49 +1,40 @@
-# Contributor Code of Conduct
+# Markdown Parser React Code of Conduct
 
-Our values guide us in our day-to-day interactions and decision-making. Our open source projects are no exception. Trust, respect, collaboration and transparency are core values we believe should live and breathe within our projects. Our community welcomes participants from around the world with different experiences, unique perspectives, and great ideas to share.
+## Introduction
 
-## Our Pledge
+The Markdown Parser React project is an open source project that values the participation of everyone in its community. This Code of Conduct outlines the expectations for all those who participate in our community, both online and in person, as well as the consequences for unacceptable behavior. We ask that everyone who participates in our community read and adhere to this Code of Conduct in order to help us create a welcoming and respectful environment for all.
 
-In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
+## Expected Behavior
 
-## Our Standards
+The following behaviors are expected of all participants in the Markdown Parser React community:
 
-Examples of behavior that contributes to creating a positive environment include:
+-   Be respectful and considerate of others, regardless of their identity or background.
+-   Communicate openly and thoughtfully, with respect for diverse perspectives and experiences.
+-   Exercise empathy in all interactions and assume good faith from others.
+-   Refrain from engaging in harmful or discriminatory speech or behavior, including but not limited to: racism, sexism, homophobia, transphobia, ableism, or any other form of discrimination or harassment.
+-   Avoid personal attacks or insults directed towards others, including members of the Markdown Parser React community and maintain a safe and inclusive environment for all.
 
-- Using welcoming and inclusive language
-- Being respectful of differing viewpoints and experiences
-- Gracefully accepting constructive criticism
-- Attempting collaboration before conflict
-- Focusing on what is best for the community
-- Showing empathy towards other community members
+## Unacceptable Behavior
 
-Examples of unacceptable behavior by participants include:
+The following behaviors will not be tolerated in the Markdown Parser React community:
 
-- Violence, threats of violence, or inciting others to commit self-harm
-- The use of sexualized language or imagery and unwelcome sexual attention or advances
-- Trolling, intentionally spreading misinformation, insulting/derogatory comments, and personal or political attacks
-- Public or private harassment
-- Publishing others' private information, such as a physical or electronic address, without explicit permission
-- Abuse of the reporting process to intentionally harass or exclude others
-- Advocating for, or encouraging, any of the above behavior
-- Other conduct which could reasonably be considered inappropriate in a professional setting
+-   Engaging in harmful or discriminatory speech or behavior, including but not limited to: racism, sexism, homophobia, transphobia, ableism, or any other form of discrimination or harassment.
+-   Engaging in personal attacks or insults directed towards others, including members of the Markdown Parser React community.
+-   Engaging in behavior that creates a hostile or unsafe environment for others, including but not limited to: threats, intimidation, or stalking.
+-   Encouraging or facilitating any of the above behaviors.
 
-## Our Responsibilities
+## Consequences of Unacceptable Behavior
 
-Project maintainers are responsible for clarifying the standards of acceptable behavior and are expected to take appropriate and fair corrective action in response to any instances of unacceptable behavior.
+Participants who engage in unacceptable behavior will be subject to consequences, which may include but are not limited to:
 
-Project maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, or to ban temporarily or permanently any contributor for other behaviors that they deem inappropriate, threatening, offensive, or harmful.
+-   Verbal or written warnings
+-   Removal from the Markdown Parser React community, either temporarily or permanently
+-   Banning from future events, both online and in person
 
-## Scope
+## Reporting Guidelines
 
-This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community. Examples of representing a project or community include using an official project e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event. Representation of a project may be further defined and clarified by project maintainers.
+If you experience or witness behavior that violates this Code of Conduct, or have any other concerns, please report it to the Markdown Parser React project team at [insert email address or contact information]. All reports will be taken seriously and responded to promptly.
 
-## Enforcement
+## Conclusion
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting us anonymously through [this form](https://goo.gl/forms/chVYUnA4bP70WGsL2). All complaints will be reviewed and investigated and will result in a response that is deemed necessary and appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident.
-
-Project maintainers who do not follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions as determined by other members of the project's leadership.
-
-If you are unsure whether an incident is a violation, or whether the space where the incident took place is covered by our Code of Conduct, **we encourage you to still report it**. We would prefer to have a few extra reports where we decide to take no action, than to leave an incident go unnoticed and unresolved that may result in an individual or group to feel like they can no longer participate in the community. Reports deemed as not a violation will also allow us to improve our Code of Conduct and processes surrounding it. If you witness a dangerous situation or someone in distress, we encourage you to report even if you are only an observer.
-
-
+By participating in the Markdown Parser React community, you agree to abide by this Code of Conduct. We thank you for your participation and for helping us maintain a respectful, welcoming, and inclusive environment for all.

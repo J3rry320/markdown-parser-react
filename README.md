@@ -1,34 +1,32 @@
-# Markdownie
+# Markdown Parser React
 
-Markdownie is a lightweight, configurable, and easy-to-use Markdown renderer for React and Next.js with syntax highlighting support. It is built with TypeScript and can be effortlessly integrated into any React or Next.js project.
+Markdown Parser React is a lightweight, configurable, and easy-to-use Markdown renderer for React and Next.js with syntax highlighting support. It is built with TypeScript and can be effortlessly integrated into any React or Next.js project.
 
-![npm](https://img.shields.io/npm/v/markdownie)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/J3rry320/markdownie/CI)
-![npm bundle size](https://img.shields.io/bundlephobia/min/markdownie)
+![npm](https://img.shields.io/npm/v/markdown-parser-react) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/J3rry320/markdown-parser-react/CI) ![npm bundle size](https://img.shields.io/bundlephobia/min/markdown-parser-react)
 
 ## Installation
 
-Install Markdownie using npm or yarn:
+Install Markdown Parser React using npm or yarn:
 
-```bash
-npm install markdownie
+bashCopy code
+
+``` bash
+npm install markdown-parser-react
 # or
-yarn add markdownie
+yarn add markdown-parser-react
 ```
 
 ## Usage
 
-To use Markdownie, import the `Markdown` component and pass the Markdown text you want to render:
-
-
+To use Markdown Parser React, import the `Markdown` component and pass the Markdown text you want to render:
 
 ```typescript
-import  Markdown from 'markdownie';
+import Markdown from 'markdown-parser-react';
 
 function MyComponent() {
   const markdown = `# Hello, world!
 
-This is **Markdownie**, a *flexible* Markdown renderer.
+This is **Markdown Parser React**, a *flexible* Markdown renderer.
 
 ## Syntax Highlighting
 
@@ -43,14 +41,16 @@ console.log(message);
 
 ## Usage with Next.js
 
-If you're using Next.js, you may encounter the ***"Text content does not match server-rendered HTML"*** error. To avoid this issue, you can use `next/dynamic` to dynamically import the `Markdown` component, ensuring that it is only rendered on the client-side.
+If you're using Next.js, you may encounter the _**"Text content does not match server-rendered HTML"**_ error. 
+To avoid this issue, you can use `next/dynamic` to dynamically import the `Markdown` component, ensuring that it is only rendered on the client-side.
 
 Here's how to use `Markdown` with Next.js:
 
-```typescript
+
+``` typescript
 import dynamic from 'next/dynamic';
 
-const Markdown = dynamic(() => import('markdownie').then((markdown) => markdown),{
+const Markdown = dynamic(() => import('markdown-parser-react').then((markdown) => markdown),{
   ssr: false,
 });
 
@@ -81,23 +81,20 @@ You can configure the following options for the Markdown parser:
 Specifies the prefix to use for language classes in code blocks. The default value is `'language-'`.
 
 ```typescript
-
-`const options = {
+const options = {
   langPrefix: 'lang-',
 };
-```
+``` 
 
 Configure the Markdown parser options by passing an `options` prop:
 
-
-
 ```typescript
-import  Markdown  from 'markdownie';
+import Markdown from 'markdown-parser-react';
 
 function MyComponent() {
   const markdown = `# Hello, world!
 
-This is **Markdownie**, a *flexible* Markdown renderer.
+This is **Markdown Parser React**, a *flexible* Markdown renderer.
 
 ## Syntax Highlighting
 
@@ -116,16 +113,14 @@ console.log(message);
 
 ## Contributing
 
-Contributions are welcome! Please read our [contributing guidelines](https://github.com/J3rry320/markdownie/blob/main/CONTRIBUTING.md) for more information.
+Contributions are welcome! Please read our [contributing guidelines](https://github.com/J3rry320/markdown-parser-react/blob/main/CONTRIBUTING.md) for more information.
 
 ## Hire Me
 
-If you need a freelance developer for your project, feel free to contact me at [j3@nobunagadesignlabs.com](mailto:j3@nobunagadesignlabs.com). I have experience with React, Next.js, TypeScript, and Node.js and would be happy to discuss your project with you.
+If you need a freelance developer for your project, feel free to contact me at [j3@nobunagadesignlabs.com](mailto:j3@nobunagadesignlabs.com). I have experience with React, Next.js, TypeScript, and Node.js, and I would be happy to discuss your project with you.
 
-## Credits
+## Why the Name Change?
 
-Markdownie is inspired by and based on the [marked](https://github.com/markedjs/marked) library.
+We recently changed the name of the package from Markdownie to markdown-parser-react. The reason for this is that "Markdownie" is considered a slur in some English-speaking countries. We understand that language has power and we want to ensure that our package name does not cause any offense or harm to anyone. We apologize for any inconvenience this may cause and we appreciate your understanding.
 
-## License
-
-Markdownie is licensed under the [MIT License](https://github.com/J3rry320/markdownie/blob/main/LICENSE).
+Happy Coding Everyone! 🧑🏽‍💻
