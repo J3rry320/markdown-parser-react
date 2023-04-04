@@ -4,6 +4,18 @@ export interface ParseOptions {
   langPrefix?: string;
 }
 
+function processText(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/).filter(Boolean);
+  return parts.map((part, index) => {
+    if (/^\*\*([^*]+)\*\*$/.test(part)) {
+      return <strong key={index}>{part.slice(2, -2)}</strong>;
+    } else if (/^\*([^*]+)\*$/.test(part)) {
+      return <em key={index}>{part.slice(1, -1)}</em>;
+    } else {
+      return <span key={index}>{part}</span>;
+    }
+  });
+}
 export function parse(markdown: string, options: ParseOptions = {}) {
   const { langPrefix = "language-" } = options;
 
@@ -15,12 +27,12 @@ export function parse(markdown: string, options: ParseOptions = {}) {
   let codeBlockLang: any = null;
   let codeBlock: string[] = [];
 
-  lines.forEach((line) => {
+  lines.forEach((line, index) => {
     // check for headers
     if (/^#{1,6}\s/.test(line)) {
       const level = line.match(/^#{1,6}/)?.[0].length;
       const text = line.replace(/^#{1,6}\s/, "");
-      html.push(React.createElement(`h${level}`, {}, text));
+      html.push(React.createElement(`h${level}`, { key: index }, text));
     }
 
     // check for horizontal rule
@@ -138,7 +150,10 @@ export function parse(markdown: string, options: ParseOptions = {}) {
         </table>
       );
     }
-
+    if (!inCodeBlock && /^(.*\*{1,2}.*|\*{1,2}.*\*{1,2})$/.test(line)) {
+      const processedText = processText(line);
+      html.push(<p key={index}>{processedText}</p>);
+    }
     // check for charts (Assuming chartData is a JSON string)
 
     // regular paragraph
