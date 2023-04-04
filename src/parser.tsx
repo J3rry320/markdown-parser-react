@@ -4,18 +4,6 @@ export interface ParseOptions {
   langPrefix?: string;
 }
 
-function processText(text: string) {
-  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/).filter(Boolean);
-  return parts.map((part, index) => {
-    if (/^\*\*([^*]+)\*\*$/.test(part)) {
-      return <strong key={index}>{part.slice(2, -2)}</strong>;
-    } else if (/^\*([^*]+)\*$/.test(part)) {
-      return <em key={index}>{part.slice(1, -1)}</em>;
-    } else {
-      return <span key={index}>{part}</span>;
-    }
-  });
-}
 export function parse(markdown: string, options: ParseOptions = {}) {
   const { langPrefix = "language-" } = options;
 
@@ -32,30 +20,30 @@ export function parse(markdown: string, options: ParseOptions = {}) {
     if (/^#{1,6}\s/.test(line)) {
       const level = line.match(/^#{1,6}/)?.[0].length;
       const text = line.replace(/^#{1,6}\s/, "");
-      html.push(React.createElement(`h${level}`, { key: index }, text));
+      html.push(React.createElement(`h${level}`, { key: `h-${index}` }, text));
     }
 
     // check for horizontal rule
     else if (/^(\*{3,}|-{3,}|_{3,})$/.test(line)) {
-      html.push(<hr />);
+      html.push(<hr key={`hr-${index}`} />);
     }
 
     // check for unordered list
     else if (/^(\*|-)\s/.test(line)) {
       const text = line.replace(/^(\*|-)\s/, "");
-      html.push(<li>{text}</li>);
+      html.push(<li key={`ul-${index}`}>{text}</li>);
     }
 
     // check for ordered list
     else if (/^\d+\.\s/.test(line)) {
       const text = line.replace(/^\d+\.\s/, "");
-      html.push(<li>{text}</li>);
+      html.push(<li key={`ol-${index}`}>{text}</li>);
     }
 
     // check for blockquote
     else if (/^>\s/.test(line)) {
       const text = line.replace(/^>\s?/, "");
-      html.push(<blockquote>{text}</blockquote>);
+      html.push(<blockquote key={`quote-${index}`}>{text}</blockquote>);
     }
 
     // check for code block
@@ -66,7 +54,7 @@ export function parse(markdown: string, options: ParseOptions = {}) {
       } else {
         const code = codeBlock.join("\n");
         html.push(
-          <pre>
+          <pre key={`cpde-${index}`}>
             <code
               className={
                 codeBlockLang ? `${langPrefix}${codeBlockLang}` : undefined
@@ -86,7 +74,7 @@ export function parse(markdown: string, options: ParseOptions = {}) {
     // check for inline code
     else if (/`([^`]+)`/.test(line)) {
       const text = line.replace(/`([^`]+)`/g, `<code>{$1}</code>`);
-      html.push(<p>{text}</p>);
+      html.push(<p key={`inlcd-${index}`}>{text}</p>);
     }
 
     // check for links
@@ -103,7 +91,7 @@ export function parse(markdown: string, options: ParseOptions = {}) {
       const match = line.match(/!\[([^\]]+)\]\(([^\)]+)\)/);
       const alt = match?.[1];
       const src = match?.[2];
-      html.push(<img src={src} alt={alt} />);
+      html.push(<img key={`img-${index}`} src={src} alt={alt} />);
     }
     // check for tables
     else if (/^\|(.+\|)+/.test(line)) {
@@ -149,16 +137,17 @@ export function parse(markdown: string, options: ParseOptions = {}) {
           {tableBody}
         </table>
       );
-    }
-    if (!inCodeBlock && /^(.*\*{1,2}.*|\*{1,2}.*\*{1,2})$/.test(line)) {
-      const processedText = processText(line);
-      html.push(<p key={index}>{processedText}</p>);
+    } else if (!inCodeBlock && /(.*\*{1,2}.*|\*{1,2}.*\*{1,2})/.test(line)) {
+      const text = line
+        .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*([^*]+)\*/g, "<em>$1</em>");
+      html.push(<p key={index} dangerouslySetInnerHTML={{ __html: text }} />);
     }
     // check for charts (Assuming chartData is a JSON string)
 
     // regular paragraph
-    else {
-      html.push(<p>{line}</p>);
+    else if (!inCodeBlock) {
+      html.push(<p key={index}>{line}</p>);
     }
   });
 
