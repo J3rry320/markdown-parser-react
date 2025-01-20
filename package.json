@@ -29,17 +29,26 @@
   "source": "src/index.ts",
   "scripts": {
     "build": "microbundle --jsx React.createElement --jsxFragment React.Fragment --jsxImportSource react",
-    "dev": "microbundle watch"
+    "dev": "microbundle watch --jsx React.createElement --jsxFragment React.Fragment --jsxImportSource react",
+    "test": "jest --coverage --env=jsdom",
+    "prepublish": "npm run build"
   },
   "license": "MIT",
   "author": "J3rry Sa7pa7hy",
   "dependencies": {
-    "react": "^18.2.0"
+    "react": "^19.0.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.32",
+    "@babel/preset-typescript": "^7.26.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@types/jest": "^29.5.14",
+    "@types/react": "^19.0.7",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "microbundle": "^0.15.1",
-    "typescript": "^5.0.3"
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.3"
   },
   "bugs": {
     "url": "https://github.com/J3rry320/markdown-parser-react/issues"

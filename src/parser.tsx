@@ -24,6 +24,7 @@
  * @remarks
  * This code is open source under the MIT license. The author can be hired by visiting [Jerry's LinkedIn](https://www.linkedin.com/in/jerrythejsguy/).
  */
+
 import React, { CSSProperties } from "react";
 
 interface CustomClasses {
@@ -37,7 +38,7 @@ interface CustomClasses {
   images?: string;
 }
 
-interface CustomStyles extends CSSProperties {
+interface CustomStyles {
   headings?: CSSProperties;
   paragraphs?: CSSProperties;
   lists?: CSSProperties;
@@ -116,6 +117,7 @@ export function parse(
   let codeBlockLang: string | null = null;
   let codeBlock: string[] = [];
   let nestingLevel = 0;
+  let skipLines = 0;
 
   // Helper function to safely merge styles and classes
   const getElementProperties = (
@@ -128,25 +130,28 @@ export function parse(
     };
 
     const className = customClasses[elementType]
-      ? `${customClasses[elementType]} ${additionalProps.className || ""}`
+      ? `${customClasses[elementType]}${
+          additionalProps.className ? ` ${additionalProps.className}` : ""
+        }`
       : additionalProps.className;
 
     return {
+      ...additionalProps,
       style: Object.keys(style).length > 0 ? style : undefined,
       className: className || undefined,
     };
   };
 
   // Enhanced sanitization function
-  const sanitize = (text: string): string => {
-    if (!sanitizeHtml) return text;
-    return text
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  };
+  // const sanitize = (text: string): string => {
+  //   if (!sanitizeHtml) return text;
+  //   return text
+  //     .replace(/&/g, "&amp;")
+  //     .replace(/</g, "&lt;")
+  //     .replace(/>/g, "&gt;")
+  //     .replace(/"/g, "&quot;")
+  //     .replace(/'/g, "&#039;");
+  // };
 
   // Process all inline formatting
   const processInlineFormatting = (text: string): string => {
@@ -156,6 +161,7 @@ export function parse(
       {
         regex: /\$(.+?)\$/g,
         replace: (_: string, math: string) =>
+          //TODO Return Math tags properly 
           `<span class="math-inline">${math}</span>`,
       },
       { regex: /~~(.+?)~~/g, replace: "<del>$1</del>" },
@@ -170,21 +176,22 @@ export function parse(
       { regex: /_(.+?)_/g, replace: "<em>$1</em>" },
       { regex: /`([^`]+)`/g, replace: "<code>$1</code>" },
       {
-        regex: /\[([^\]]+)\]\(([^)]+)(?:\s+"([^"]+)")?\)/g,
+        regex: /\[([^\]]+)\]\(([^)"'\s]+)(?:\s+"([^"]+)")?\)/g,
         replace: (
           match: string,
           text: string,
           url: string,
-          title: string
+          title: string | undefined
         ): string => {
           const props = getElementProperties("links", {
             href: url,
-            title,
+            ...(title && { title }), // Only add title if it exists
             target: linkTarget,
             rel: linkTarget === "_blank" ? "noopener noreferrer" : undefined,
           });
 
           const attributes = Object.entries(props)
+            .filter(([_, value]) => value !== undefined) // Filter out undefined values
             .map(([key, value]) => `${key}="${value}"`)
             .join(" ");
 
@@ -194,7 +201,6 @@ export function parse(
     ];
 
     return replacements.reduce(
-      //ToDO Better Types please
       (processed, { regex, replace }) =>
         processed.replace(regex, replace as any),
       text
@@ -203,28 +209,57 @@ export function parse(
 
   // Process each line
   lines.forEach((line, index) => {
+    if (skipLines > 0) {
+      skipLines--;
+      return;
+    }
     // Skip processing if max nesting level is reached
     if (nestingLevel > maxNestingLevel) {
       html.push(<p key={`error-${index}`}>Maximum nesting level reached</p>);
       return;
     }
 
-    // Process definition lists
-    if (/^[^\s].*\n:\s/.test(line)) {
-      const [term, ...definitions] = line.split("\n:");
-      html.push(
-        <dl key={`dl-${index}`} {...getElementProperties("lists")}>
-          <dt>{processInlineFormatting(term)}</dt>
-          {definitions.map((def, i) => (
-            <dd key={i}>{processInlineFormatting(def.trim())}</dd>
-          ))}
-        </dl>
-      );
-      return;
+    // Inside the parse function, where we handle different line types:
+
+    // Handle definition lists - needs multiple line lookahead
+    if (index < lines.length - 1) {
+      const currentLine = line.trim();
+      const nextLine = lines[index + 1].trim();
+
+      if (
+        currentLine !== "" &&
+        !currentLine.startsWith(":") &&
+        nextLine.startsWith(":")
+      ) {
+        const term = currentLine;
+        const definitions: string[] = [];
+        let i = index + 1;
+
+        // Collect all subsequent definitions
+        while (i < lines.length && lines[i].trim().startsWith(":")) {
+          definitions.push(lines[i].trim().slice(1).trim());
+          i++;
+        }
+
+        // Set the number of lines to skip
+        skipLines = definitions.length;
+
+        // Create the definition list element
+        html.push(
+          <dl key={`dl-${index}`} {...getElementProperties("lists")}>
+            <dt>{processInlineFormatting(term)}</dt>
+            {definitions.map((def, defIndex) => (
+              <dd key={defIndex}>{processInlineFormatting(def)}</dd>
+            ))}
+          </dl>
+        );
+
+        return;
+      }
     }
 
     // Task lists with nested support
-    if (/^(\s*)-\s\[(x| )\]/.test(line)) {
+    if (/^(\s*)-\s\[(x| )\]/.test(line.trim())) {
       const indent = (line.match(/^\s*/) || [""])[0].length;
       const checked = line.includes("[x]");
       const text = line.replace(/^(\s*)-\s\[(x| )\]\s*/, "");
@@ -245,7 +280,7 @@ export function parse(
     }
 
     // Headers with custom IDs
-    if (/^#{1,6}\s/.test(line)) {
+    if (/^#{1,6}\s/.test(line.trim())) {
       const level = line.match(/^#{1,6}/)?.[0].length || 1;
       const text = line.replace(/^#{1,6}\s/, "");
       const idMatch = text.match(/\{#([^}]+)\}/);
@@ -267,10 +302,10 @@ export function parse(
     }
 
     // Code blocks
-    if (/^```(\S+)?(\s+\{.*\})?$/.test(line)) {
+    if (/^```(\S+)?(\s+\{.*\})?$/.test(line.trim())) {
       inCodeBlock = !inCodeBlock;
       if (inCodeBlock) {
-        const match = line.match(/^```(\S+)?(\s+\{.*\})?$/);
+        const match = line.trim().match(/^```(\S+)?/);
         codeBlockLang = match?.[1] || null;
         codeBlock = [];
       } else {
@@ -282,7 +317,7 @@ export function parse(
                 codeBlockLang ? `${langPrefix}${codeBlockLang}` : undefined
               }
             >
-              {sanitize(code)}
+              {code}
             </code>
           </pre>
         );
@@ -297,8 +332,7 @@ export function parse(
       return;
     }
 
-    // Blockquotes with citations
-    if (/^>\s/.test(line)) {
+    if (/^>\s/.test(line.trim())) {
       const citationMatch = line.match(/^>\s?(.+?)(?:\s+--\s+(.+))?$/);
       if (citationMatch) {
         const [, text, citation] = citationMatch;
@@ -311,18 +345,37 @@ export function parse(
             {citation && <footer>— {citation}</footer>}
           </blockquote>
         );
+        return;
+      } else {
+        html.push(
+          <blockquote
+            key={`quote-${index}`}
+            {...getElementProperties("blockquotes")}
+          >
+            {processInlineFormatting(line.trim().replace(/^>\s/, ""))}
+          </blockquote>
+        );
+        return;
       }
-      return;
     }
 
     // Tables with alignment
-    if (/^\|(.+\|)+/.test(line)) {
-      const tableRows = [line];
-      const alignments: Array<"left" | "center" | "right"> = [];
+    if (/^\|(.+\|)+/.test(line.trim())) {
+      // Skip if we're in the middle of processing a table (i.e., this is a data row or alignment row)
+      if (index > 0 && /^\|(.+\|)+/.test(lines[index - 1].trim())) {
+        return;
+      }
+      // Check if this is not an alignment row - prevent treating alignment rows as new table starts
+      if (!/^\|(\s*:?-+:?\s*\|)+/.test(line.trim())) {
+        const tableRows: string[] = [line.trim()]; // Start with the header row
+        const alignments: Array<"left" | "center" | "right"> = [];
 
-      if (lines[0] && /^\|(\s*:?-+:?\s*\|)+/.test(lines[0])) {
-        const alignmentRow = lines.shift();
-        if (alignmentRow) {
+        // Check for alignment row directly after the header row
+        if (
+          index + 1 < lines.length &&
+          /^\|(\s*:?-+:?\s*\|)+/.test(lines[index + 1].trim())
+        ) {
+          const alignmentRow = lines[index + 1].trim();
           alignments.push(
             ...alignmentRow
               .split("|")
@@ -334,72 +387,89 @@ export function parse(
                 return "left";
               })
           );
+          index++; // Skip alignment row
+        }
+
+        // Collect all body rows following the alignment row
+        while (
+          index + 1 < lines.length &&
+          /^\|(.+\|)+/.test(lines[index + 1].trim()) &&
+          !/^\|(\s*:?-+:?\s*\|)+/.test(lines[index + 1].trim())
+        ) {
+          tableRows.push(lines[index + 1].trim());
+          index++;
+        }
+
+        // Only proceed if we have a valid table structure
+        if (tableRows.length > 0) {
+          // Process the header row to extract columns
+          const headerRow = tableRows[0];
+          const headerColumns = headerRow
+            .split("|")
+            .slice(1, -1)
+            .map((col) => col.trim());
+
+          // Generate the HTML for the table
+          const tableProps = getElementProperties("tables");
+
+          html.push(
+            <table key={`table-${index}`} {...tableProps}>
+              <thead>
+                <tr>
+                  {headerColumns.map((col, i) => (
+                    <th key={i} style={{ textAlign: alignments[i] || "left" }}>
+                      {processInlineFormatting(col)}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {tableRows.slice(1).map((row, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {row
+                      .split("|")
+                      .slice(1, -1)
+                      .map((cell, cellIndex) => (
+                        <td
+                          key={cellIndex}
+                          style={{ textAlign: alignments[cellIndex] || "left" }}
+                        >
+                          {processInlineFormatting(cell.trim())}
+                        </td>
+                      ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          );
         }
       }
-
-      while (lines.length && /^\|(.+\|)+/.test(lines[0])) {
-        tableRows.push(lines.shift()!);
-      }
-
-      const headerRow = tableRows[0];
-      const headerColumns = headerRow
-        .split("|")
-        .slice(1, -1)
-        .map((col) => col.trim());
-
-      const tableProps = getElementProperties("tables");
-
-      html.push(
-        <table key={`table-${index}`} {...tableProps}>
-          <thead>
-            <tr>
-              {headerColumns.map((col, i) => (
-                <th key={i} style={{ textAlign: alignments[i] || "left" }}>
-                  {processInlineFormatting(col)}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {tableRows.slice(2).map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {row
-                  .split("|")
-                  .slice(1, -1)
-                  .map((cell, cellIndex) => (
-                    <td
-                      key={cellIndex}
-                      style={{ textAlign: alignments[cellIndex] || "left" }}
-                    >
-                      {processInlineFormatting(cell.trim())}
-                    </td>
-                  ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      );
       return;
     }
+    //TODO MOVE REGEX TO A CONFIG
     // Images
-    if (/!\[([^\]]*)\]\(([^)]+)(?:\s+"([^"]+)")?\)/.test(line)) {
-      const match = line.match(/!\[([^\]]*)\]\(([^)]+)(?:\s+"([^"]+)")?\)/);
+    if (/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]+)")?\)/.test(line.trim())) {
+      const match = line
+        .trim()
+        .match(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]+)")?\)/);
+
       if (match) {
-        const [alt, src, title] = match;
+        const [, alt = "", src = "", title = ""] = match;
         html.push(
           <img
             key={`img-${index}`}
             src={src}
             alt={alt}
-            title={title}
+            title={title || undefined}
             {...getElementProperties("images")}
           />
         );
       }
-      return;
+      return; // Stop further processing for this line
     }
+
     // Lists (ordered and unordered)
-    if (/^(\s*)([-*+]|\d+\.)\s/.test(line)) {
+    if (/^(\s*)([-*+]|\d+\.)\s/.test(line.trim())) {
       const indent = (line.match(/^\s*/) || [""])[0].length;
       const isOrdered = /^\s*\d+\./.test(line);
       const text = line.replace(/^(\s*)([-*+]|\d+\.)\s/, "");
@@ -423,7 +493,7 @@ export function parse(
     }
 
     // Process regular paragraphs with inline formatting
-    const processedText = processInlineFormatting(line);
+    const processedText = processInlineFormatting(line.trim());
     if (processedText.trim()) {
       html.push(
         <p key={`p-${index}`} {...getElementProperties("paragraphs")}>
