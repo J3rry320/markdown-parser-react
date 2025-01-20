@@ -1,3 +1,5 @@
+![Code Coverage](https://img.shields.io/badge/Coverage-97.45%25-brightgreen)
+
 #  Markdown Parser React
 
   
