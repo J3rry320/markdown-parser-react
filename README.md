@@ -81,9 +81,9 @@ The basic usage example demonstrates rendering a simple Markdown string:
 import Markdown from "markdown-parser-react";
 
 function MyComponent() {
-  return <Markdown content="# Hello World\n\nThis is **markdown** content." />;
+  return <Markdown content="# Hello World
+  This is **markdown** content." />;
 }
-
 
 ```
 
