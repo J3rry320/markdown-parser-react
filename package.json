@@ -1,6 +1,6 @@
 {
   "name": "markdown-parser-react",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A lightweight and configurable Markdown renderer for React and Next.js with syntax highlighting, definition lists, images, math and table support.",
   "keywords": [
     "markdown",

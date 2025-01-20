@@ -1,16 +1,18 @@
-![Code Coverage](https://img.shields.io/badge/Coverage-97.45%25-brightgreen)
+
 
 #  Markdown Parser React
 
   
 
 A flexible and feature-rich React component for rendering Markdown content with customizable styling, extensive formatting options, and robust typings.
+
+![markdown-parser-react](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0h9v6cfybc92ozlfa65x.png)
   
 
 ![npm](https://img.shields.io/npm/v/markdown-parser-react)  ![npm bundle size](https://img.shields.io/bundlephobia/min/markdown-parser-react)
 ![downloads](https://img.shields.io/npm/dt/markdown-parser-react?color=green&label=downloads&logo=npm)
   ![stars](https://img.shields.io/github/stars/J3rry320/markdown-parser-react?color=brightgreen&label=stars&logo=github)
-[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)![Code Coverage](https://img.shields.io/badge/Coverage-97.45%25-brightgreen)
 
 ##  Features
 
