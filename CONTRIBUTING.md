@@ -4,7 +4,7 @@ Thank you for considering contributing to markdown-parser-react! We welcome any 
 
 ## Code of Conduct
 
-We expect all contributors to adhere to our [Code of Conduct](https://github.com/%7Busername%7D/%7Brepo%7D/blob/main/CODE_OF_CONDUCT.md). Please read it carefully before contributing to the project.
+We expect all contributors to adhere to our [Code of Conduct](https://github.com/j3rry320/markdown-parser-react/blob/main/CODE_OF_CONDUCT.md). Please read it carefully before contributing to the project.
 
 ## How to Contribute
 
@@ -26,11 +26,11 @@ To set up the project for local development, follow these steps:
 
 ## Reporting Bugs
 
-If you encounter a bug while using markdown-parser-react, please create a new issue on our [GitHub repository](https://github.com/%7Busername%7D/%7Brepo%7D/issues) and include a clear description of the problem, the expected behavior, and any relevant code examples or screenshots.
+If you encounter a bug while using markdown-parser-react, please create a new issue on our [GitHub repository](https://github.com/j3rry320/markdown-parser-react/issues) and include a clear description of the problem, the expected behavior, and any relevant code examples or screenshots.
 
 ## Feature Requests
 
-If you have an idea for a new feature or improvement, feel free to create a new issue on our [GitHub repository](https://github.com/%7Busername%7D/%7Brepo%7D/issues) and describe the feature or improvement in detail.
+If you have an idea for a new feature or improvement, feel free to create a new issue on our [GitHub repository](https://github.com/j3rry320/markdown-parser-react/issues) and describe the feature or improvement in detail.
 
 ## Pull Request Process
 
