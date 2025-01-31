@@ -20,7 +20,7 @@ Here are the general steps to follow when contributing to markdown-parser-react:
 
 To set up the project for local development, follow these steps:
 
-1.  Clone the repository: `git clone https://github.com/{username}/{repo}.git`
+1.  Clone the repository: `git clone https://github.com/j3rry320/markdown-parser-react.git`
 2.  Install dependencies: `npm install` or `yarn`
 3.  Run the dev server: `npm run dev` or `yarn dev`
 
